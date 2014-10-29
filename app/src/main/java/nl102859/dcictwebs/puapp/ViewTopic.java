@@ -1,0 +1,70 @@
+package nl102859.dcictwebs.puapp;
+
+import android.content.Intent;
+import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+
+public class ViewTopic extends ActionBarActivity {
+    static String topicURL;
+    LinearLayout layout;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_view_topic);
+
+
+
+        layout = (LinearLayout)findViewById(R.id.topicStart);
+
+        Topic topic = new Topic(topicURL);
+
+        final TextView oPoster = new TextView(ViewTopic.this);
+        final TextView titel = new TextView(ViewTopic.this);
+        final TextView oPost = new TextView(ViewTopic.this);
+
+        oPoster.setText("Topic starter: " + topic.getOriginalPoster());
+        titel.setText("Topic titel: " + topic.getTopicTitel());
+        oPost.setText("Opening post: " + topic.getOpeningPost());
+
+        this.setTitle(topic.getTopicTitel());
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                layout.addView(titel);
+                layout.addView(oPoster);
+                layout.addView(oPost);
+            }
+        });
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.view_topic, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void onBackPressed(){
+        startActivity(new Intent(ViewTopic.this, MyActivity.class));
+    }
+}
